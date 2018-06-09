@@ -1,0 +1,27 @@
+{
+  "name": "accounts-ui",
+  "description": "Accounts UI for React Component in Meteor",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/studiointeract/accounts-ui.git"
+  },
+  "keywords": [
+    "react",
+    "meteor",
+    "tracker"
+  ],
+  "author": "timbrandin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/studiointeract/accounts-ui/issues"
+  },
+  "homepage": "https://github.com/studiointeract/accounts-ui",
+  "dependencies": {
+    "prop-types": "^15.5.8"
+  },
+  "peerDependencies": {
+    "react": "^15.0.0",
+    "react-dom": "^15.0.0",
+    "react-addons-pure-render-mixin": "^15.0.0"
+  }
+}
