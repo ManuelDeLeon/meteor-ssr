@@ -5,7 +5,7 @@ import { StaticRouter } from "react-router";
 import { object } from "prop-types";
 import { Helmet } from "react-helmet";
 import routes from "../client_server/routes";
-import { patchUser } from "./patch_user";
+import { patchUser, restoreUser, getUser } from "./patch_user";
 import { getCookies } from "./cookies";
 
 onPageLoad(sink => {
@@ -21,13 +21,14 @@ onPageLoad(sink => {
     location: object.isRequired
   };
 
-  const cookies = getCookies(sink.request.headers.cookie);
-  patchUser(cookies.clientId, sink.request.url.query.token);
-
-  sink.renderIntoElementById(
-    "app",
-    renderToString(<App location={sink.request.url} />)
-  );
+  const clientId = sink.request.headers.cookie && getCookies(sink.request.headers.cookie).clientId;
+  const user = getUser(clientId);
+  try {
+    patchUser(user);
+    sink.renderIntoElementById("app", renderToString(<App location={sink.request.url} />));
+  } finally {
+    restoreUser();
+  }
 
   const helmet = Helmet.renderStatic();
   sink.appendToHead(helmet.meta.toString());

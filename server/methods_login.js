@@ -5,15 +5,19 @@ import { Random } from "meteor/random";
 import { PrivateCount } from "../client_server/collections";
 
 Meteor.methods({
-  userLoggedIn(clientId) {
-    if (!clientId) {
-      clientId = Random.secret();
-    }
+  userLoggedIn() {
+    const clientId = Random.secret();
     const userId = Meteor.userId();
-    const userToken = UserTokens.findOne({ userId: userId });
+
+    const userToken = UserTokens.findOne({ $or: [{ userId: userId }, { tokens: clientId }] });
+    console.log(userToken);
+    console.log(userId);
     if (userToken) {
       if (userToken.tokens.indexOf(clientId) == -1) {
         userToken.tokens.push(clientId);
+        UserTokens.update(userToken._id, { $set: userToken });
+      } else if (!userToken.userId) {
+        userToken.userId = userId;
         UserTokens.update(userToken._id, { $set: userToken });
       }
     } else {
