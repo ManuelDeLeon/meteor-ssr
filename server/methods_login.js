@@ -12,8 +12,6 @@ Meteor.methods({
     const userId = Meteor.userId();
 
     const userToken = UserTokens.findOne({ $or: [{ userId: userId }, { tokens: clientId }] });
-    console.log(userToken);
-    console.log(userId);
     if (userToken) {
       if (userToken.tokens.indexOf(clientId) == -1) {
         userToken.tokens.push(clientId);

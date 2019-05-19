@@ -24,9 +24,7 @@ AccountsReact.configure({
     resendVerification: "/account/resendVerification"
   },
   onLoginHook() {
-    console.log("onLoginHook");
     const cookies = new Cookies({ TTL: Number.MAX_VALUE });
-    // const clientId = cookies.get("clientId");
     const clientId = Random.secret();
     cookies.set("clientId", clientId, { path: "/" });
     Meteor.call("userLoggedIn", clientId, (error, clientId) => {
@@ -38,26 +36,18 @@ AccountsReact.configure({
     });
   },
   onLogoutHook() {
-    console.log("onLogoutHook");
-    // if (!Meteor.isClient) return;
-
     const cookies = new Cookies({ TTL: Number.MAX_VALUE });
     const clientId = cookies.get("clientId");
-    console.log(`calling userloggedOut with clientId: ${clientId}`);
     Meteor.call("userLoggedOut", clientId, error => {
       if (error) {
         console.log(error);
       } else {
-        console.log("Removing clientId cookie");
         cookies.remove("clientId");
       }
     });
   },
   onSubmitHook(err, state) {
-    console.log("onSubmitHook: " + state);
     if (!err && Meteor.isClient) {
-      if (state === "signIn") {
-      }
       if (state === "signUp") {
         Meteor.call("userLoggedIn", (error, clientId) => {
           if (error) {
