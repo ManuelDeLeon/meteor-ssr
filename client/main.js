@@ -5,7 +5,6 @@ import { onPageLoad } from "meteor/server-render";
 import routes from "../client_server/routes";
 import { Tracker } from "meteor/tracker";
 import ViewModel from "viewmodel-react";
-import { Cookies } from "meteor/ostrio:cookies";
 
 // Use Meteor's dependency management
 ViewModel.Tracker = Tracker;
@@ -28,18 +27,8 @@ Accounts.onEmailVerificationLink(function(token, done) {
       // handle the error, perhaps by showing the user a message about an invalid token
       console.log(error);
     } else {
+      // Tell the user their email has been validated
     }
     done();
   });
-  // window.location.search = "?token=" + token;
-  // const cookies = new Cookies({ TTL: Number.MAX_VALUE });
-  // cookies.set("clientId", token, { path: "/" });
-  // Meteor.call("userLoggedIn", (error, clientId) => {
-  //   if (error) {
-  //     console.log(error);
-  //   } else {
-  //     const cookies = new Cookies({ TTL: Number.MAX_VALUE });
-  //     cookies.set("clientId", clientId, { path: "/" });
-  //   }
-  // });
 });

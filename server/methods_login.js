@@ -5,8 +5,10 @@ import { Random } from "meteor/random";
 import { PrivateCount } from "../client_server/collections";
 
 Meteor.methods({
-  userLoggedIn() {
-    const clientId = Random.secret();
+  userLoggedIn(clientId) {
+    if (!clientId) {
+      clientId = Random.secret();
+    }
     const userId = Meteor.userId();
 
     const userToken = UserTokens.findOne({ $or: [{ userId: userId }, { tokens: clientId }] });

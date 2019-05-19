@@ -7,6 +7,7 @@ import { Admin } from "../ui/Admin/Admin";
 import { UserAccount } from "../ui/UserAccount/UserAccount";
 import { AccountsReact } from "meteor/meteoreact:accounts";
 import { Cookies } from "meteor/ostrio:cookies";
+import { Random } from "meteor/random";
 
 AccountsReact.configure({
   confirmPassword: false,
@@ -25,7 +26,9 @@ AccountsReact.configure({
   onLoginHook() {
     console.log("onLoginHook");
     const cookies = new Cookies({ TTL: Number.MAX_VALUE });
-    const clientId = cookies.get("clientId");
+    // const clientId = cookies.get("clientId");
+    const clientId = Random.secret();
+    cookies.set("clientId", clientId, { path: "/" });
     Meteor.call("userLoggedIn", clientId, (error, clientId) => {
       if (error) {
         console.log(error);

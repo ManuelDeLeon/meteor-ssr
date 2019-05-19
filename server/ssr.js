@@ -20,10 +20,10 @@ onPageLoad(sink => {
   App.propTypes = {
     location: object.isRequired
   };
-  console.log(sink.request.url);
   const clientId =
     (sink.request.headers.cookie && getCookies(sink.request.headers.cookie).clientId) ||
     sink.request.url.query.token;
+  console.log("clientId: " + clientId);
   const user = getUser(clientId);
   try {
     patchUser(user);
