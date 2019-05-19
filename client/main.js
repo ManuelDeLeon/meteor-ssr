@@ -27,9 +27,19 @@ Accounts.onEmailVerificationLink(function(token, done) {
     if (error) {
       // handle the error, perhaps by showing the user a message about an invalid token
       console.log(error);
+    } else {
     }
     done();
   });
-  const cookies = new Cookies({ TTL: Number.MAX_VALUE });
-  cookies.set("clientId", token, { path: "/" });
+  // window.location.search = "?token=" + token;
+  // const cookies = new Cookies({ TTL: Number.MAX_VALUE });
+  // cookies.set("clientId", token, { path: "/" });
+  // Meteor.call("userLoggedIn", (error, clientId) => {
+  //   if (error) {
+  //     console.log(error);
+  //   } else {
+  //     const cookies = new Cookies({ TTL: Number.MAX_VALUE });
+  //     cookies.set("clientId", clientId, { path: "/" });
+  //   }
+  // });
 });

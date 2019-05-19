@@ -12,7 +12,7 @@ AccountsReact.configure({
   confirmPassword: false,
   enablePasswordChange: true,
   showForgotPasswordLink: true,
-  loginAfterSignup: false,
+  loginAfterSignup: true,
   passwordSignupFields: "USERNAME_AND_OPTIONAL_EMAIL",
   mapStateToRoute: {
     signIn: "/account/signIn",
@@ -62,9 +62,9 @@ AccountsReact.configure({
           } else {
             const cookies = new Cookies({ TTL: Number.MAX_VALUE });
             cookies.set("clientId", clientId, { path: "/" });
+            window.location.href = "/";
           }
         });
-        window.location.href = "/confirmEmail";
       }
     }
   }
