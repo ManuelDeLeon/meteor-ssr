@@ -1,11 +1,11 @@
-import { PublicCount } from "../../client_server/collections";
+import { PublicCount } from "/client_server/collections";
 
 Home({
   publicCount() {
     return PublicCount.findOne().count;
   },
   incrementPublic() {
-    return PublicCount.update(PublicCount.findOne()._id, {
+    PublicCount.update(PublicCount.findOne()._id, {
       $inc: { count: 1 }
     });
   },

@@ -1,4 +1,4 @@
-import { PrivateCount } from "../../../client_server/collections";
+import { PrivateCount } from "/client_server/collections";
 PrivateHome({
   privateCount() {
     const user = Meteor.user();

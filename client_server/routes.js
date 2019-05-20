@@ -2,7 +2,6 @@ import React from "react";
 import { Route } from "react-router-dom";
 import { Home } from "/ui/Home/Home";
 import { Layout } from "/ui/Layout";
-import { ConfirmEmail } from "/ui/ConfirmEmail";
 import { Admin } from "/ui/Admin/Admin";
 import { UserAccount } from "/ui/UserAccount/UserAccount";
 import { AccountsReact } from "meteor/meteoreact:accounts";
@@ -89,6 +88,23 @@ export const routes = (
     <Route exact path="/" component={Home} />
     <Route exact path="/admin" component={Admin} />
     <Route exact path="/account/:action" component={UserAccount} />
-    <Route exact path="/confirmEmail" component={ConfirmEmail} />
   </Layout>
 );
+
+const routeSubscriptions = {
+  "/": ["public", "private", "user", "admin"],
+  "/admin": ["user", "admin"]
+};
+
+const routeStartsWithSubscriptions = {
+  "/account": ["user"]
+};
+
+export const getRouteSubscriptions = pathname => {
+  return (
+    routeSubscriptions[pathname] ||
+    Object.keys(routeStartsWithSubscriptions)
+      .filter(r => r === pathname || pathname.startsWith(r + "/"))
+      .flatMap(route => routeStartsWithSubscriptions[route])
+  );
+};

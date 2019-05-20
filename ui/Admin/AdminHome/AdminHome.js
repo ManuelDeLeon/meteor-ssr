@@ -1,4 +1,4 @@
-import { AdminCount } from "../../../client_server/collections";
+import { AdminCount } from "/client_server/collections";
 AdminHome({
   adminCount() {
     return AdminCount.findOne().count;

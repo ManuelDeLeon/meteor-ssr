@@ -1,3 +1,4 @@
 import "./ssr";
-import "./collections";
+import "./collections_security";
 import "./methods_login";
+import "./publications";
