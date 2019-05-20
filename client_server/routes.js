@@ -63,7 +63,6 @@ AccountsReact.configure({
   },
   onSubmitHook(err, state) {
     if (!err && Meteor.isClient) {
-      console.log(state);
       if (state === "signUp") {
         Meteor.call("userLoggedIn", (error, clientId) => {
           if (error) {
