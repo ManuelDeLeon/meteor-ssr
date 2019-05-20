@@ -1,10 +1,6 @@
 import { Meteor } from "meteor/meteor";
 import { ServerConfig } from "./ServerConfig";
-import {
-  PublicCount,
-  PrivateCount,
-  AdminCount
-} from "../client_server/collections";
+import { PublicCount, PrivateCount, AdminCount } from "/client_server/collections";
 
 export const UserTokens = new Mongo.Collection("userTokens");
 
@@ -29,10 +25,7 @@ Meteor.publish("main", function() {
     PrivateCount.find({ owner: Meteor.userId() }, { limit: 1 }),
     Meteor.users.find({ _id: this.userId }, { fields: { isAdmin: 1 } })
   ].concat(
-    Meteor.users.findOne(
-      { _id: Meteor.userId(), isAdmin: true },
-      { isAdmin: 1 }
-    )
+    Meteor.users.findOne({ _id: Meteor.userId(), isAdmin: true }, { isAdmin: 1 })
       ? [AdminCount.find({}, { limit: 1 })]
       : []
   );

@@ -1,8 +1,6 @@
 import { Meteor } from "meteor/meteor";
-import { Cookies } from "meteor/ostrio:cookies";
 import { UserTokens } from "./collections";
 import { Random } from "meteor/random";
-import { PrivateCount } from "../client_server/collections";
 
 Meteor.methods({
   userLoggedIn(clientId) {

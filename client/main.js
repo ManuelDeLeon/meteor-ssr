@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter, Switch } from "react-router-dom";
+import { Switch, BrowserRouter } from "react-router-dom";
 import { onPageLoad } from "meteor/server-render";
-import routes from "../client_server/routes";
+import { routes } from "/client_server/routes";
 import { Tracker } from "meteor/tracker";
 import ViewModel from "viewmodel-react";
 
@@ -31,4 +31,9 @@ Accounts.onEmailVerificationLink(function(token, done) {
     }
     done();
   });
+});
+
+Accounts.onResetPasswordLink((token, done) => {
+  window.location.replace("/account/resetPwd?token=" + token);
+  done();
 });

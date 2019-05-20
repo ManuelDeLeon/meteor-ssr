@@ -1,5 +1,7 @@
 import { AccountsReactComponent } from "meteor/meteoreact:accounts";
 import { Meteor } from "meteor/meteor";
+import renderBag from "/client_server/renderBag";
+
 const states = {
   changepwd: "changePwd",
   forgotpwd: "forgotPwd",
@@ -18,9 +20,18 @@ UserAccount({
     }
     return state;
   },
+  token() {
+    if (Meteor.isClient) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get("token");
+      return token;
+    } else {
+      return renderBag.token;
+    }
+  },
   render() {
     <div>
-      <AccountsReactComponent state={this.accountState()} />
+      <AccountsReactComponent state={this.accountState()} token={this.token()} />
     </div>;
   }
 });

@@ -1,6 +1,9 @@
 import { Meteor } from "meteor/meteor";
 import { AccountsReact } from "meteor/meteoreact:accounts";
 Layout({
+  loggedIn() {
+    return !!Meteor.user();
+  },
   logInOut() {
     if (Meteor.user()) {
       AccountsReact.logout();
@@ -13,7 +16,10 @@ Layout({
   },
   render() {
     <div>
-      <button b="click: logInOut, text: logInOutText" />
+      <button b="click: logInOut, text: logInOutText" /> -<a href="/">Home</a> -
+      <a href="/account/changePwd" b="if: loggedIn">
+        Change Password
+      </a>
       <hr />
       {this.props.children}
     </div>;

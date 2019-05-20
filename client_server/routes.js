@@ -1,13 +1,14 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import { Home } from "../ui/Home/Home";
-import { Layout } from "../ui/Layout";
-import { ConfirmEmail } from "../ui/ConfirmEmail";
-import { Admin } from "../ui/Admin/Admin";
-import { UserAccount } from "../ui/UserAccount/UserAccount";
+import { Home } from "/ui/Home/Home";
+import { Layout } from "/ui/Layout";
+import { ConfirmEmail } from "/ui/ConfirmEmail";
+import { Admin } from "/ui/Admin/Admin";
+import { UserAccount } from "/ui/UserAccount/UserAccount";
 import { AccountsReact } from "meteor/meteoreact:accounts";
 import { Cookies } from "meteor/ostrio:cookies";
 import { Random } from "meteor/random";
+import { Meteor } from "meteor/meteor";
 
 AccountsReact.configure({
   confirmPassword: false,
@@ -23,10 +24,25 @@ AccountsReact.configure({
     resetPwd: "/account/resetPwd",
     resendVerification: "/account/resendVerification"
   },
+  redirects: {
+    toSignUp: () => {
+      window.location.href = "/account/signUp";
+    },
+    toSignIn: () => {
+      window.location.href = "/account/signIn";
+    },
+    toForgotPwd: () => {
+      window.location.href = "/account/forgotPwd";
+    }
+  },
   onLoginHook() {
     const cookies = new Cookies({ TTL: Number.MAX_VALUE });
-    const clientId = Random.secret();
-    cookies.set("clientId", clientId, { path: "/" });
+    let clientId = cookies.get("clientId");
+    if (!clientId) {
+      clientId = Random.secret();
+      cookies.set("clientId", clientId, { path: "/" });
+    }
+
     Meteor.call("userLoggedIn", clientId, (error, clientId) => {
       if (error) {
         console.log(error);
@@ -48,6 +64,7 @@ AccountsReact.configure({
   },
   onSubmitHook(err, state) {
     if (!err && Meteor.isClient) {
+      console.log(state);
       if (state === "signUp") {
         Meteor.call("userLoggedIn", (error, clientId) => {
           if (error) {
@@ -58,12 +75,16 @@ AccountsReact.configure({
             window.location.href = "/";
           }
         });
+      } else if (state === "changePwd") {
+        window.location.href = "/";
+      } else if (state === "resetPwd") {
+        window.location.href = "/";
       }
     }
   }
 });
 
-export default (
+export const routes = (
   <Layout>
     <Route exact path="/" component={Home} />
     <Route exact path="/admin" component={Admin} />

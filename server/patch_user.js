@@ -3,6 +3,7 @@ import { Meteor } from "meteor/meteor";
 import { UserTokens } from "./collections";
 
 const originalAccountsUser = Accounts.user;
+const originalAccountsUserId = Accounts.userId;
 
 export function getUser(clientId) {
   let retUser = undefined;
@@ -21,10 +22,14 @@ export function getUser(clientId) {
   };
 }
 
-export function patchUser(user) {
+export function patchUser(clientId) {
+  const user = getUser(clientId);
   Accounts.user = user;
+  const currentUser = user();
+  Accounts.userId = () => currentUser && currentUser._id;
 }
 
 export function restoreUser() {
   Accounts.user = originalAccountsUser;
+  Accounts.userId = originalAccountsUserId;
 }

@@ -2,7 +2,8 @@
   "name": "LimitedRankings",
   "private": true,
   "scripts": {
-    "start": "meteor run"
+    "start": "meteor run",
+    "size": "meteor --extra-packages bundle-visualizer --production"
   },
   "dependencies": {
     "@babel/runtime": "^7.4.4",

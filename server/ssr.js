@@ -4,9 +4,10 @@ import { onPageLoad } from "meteor/server-render";
 import { StaticRouter } from "react-router";
 import { object } from "prop-types";
 import { Helmet } from "react-helmet";
-import routes from "../client_server/routes";
-import { patchUser, restoreUser, getUser } from "./patch_user";
+import { patchUser, restoreUser } from "./patch_user";
 import { getCookies } from "./cookies";
+import renderBag from "/client_server/renderBag";
+import { routes } from "/client_server/routes";
 
 onPageLoad(sink => {
   const context = {};
@@ -23,9 +24,9 @@ onPageLoad(sink => {
   const clientId =
     (sink.request.headers.cookie && getCookies(sink.request.headers.cookie).clientId) ||
     sink.request.url.query.token;
-  const user = getUser(clientId);
+  renderBag.token = sink.request.url.query.token;
   try {
-    patchUser(user);
+    patchUser(clientId);
     sink.renderIntoElementById("app", renderToString(<App location={sink.request.url} />));
   } finally {
     restoreUser();
