@@ -35,6 +35,7 @@ AccountsReact.configure({
     }
   },
   onLoginHook() {
+    if (Meteor.isServer) return;
     const cookies = new Cookies({ TTL: Number.MAX_VALUE });
     let clientId = cookies.get("clientId");
     if (!clientId) {
@@ -44,29 +45,34 @@ AccountsReact.configure({
 
     Meteor.call("userLoggedIn", clientId, (error, clientId) => {
       if (error) {
-        console.log(error);
+        console.error(error);
       } else {
         cookies.set("clientId", clientId, { path: "/" });
+        window.location.href = "/";
       }
     });
   },
   onLogoutHook() {
+    if (Meteor.isServer) return;
     const cookies = new Cookies({ TTL: Number.MAX_VALUE });
     const clientId = cookies.get("clientId");
     Meteor.call("userLoggedOut", clientId, error => {
       if (error) {
-        console.log(error);
+        console.error(error);
       } else {
         cookies.remove("clientId");
       }
     });
   },
   onSubmitHook(err, state) {
-    if (!err && Meteor.isClient) {
+    if (Meteor.isServer) return;
+    if (err) {
+      console.error(err);
+    } else {
       if (state === "signUp") {
         Meteor.call("userLoggedIn", (error, clientId) => {
           if (error) {
-            console.log(error);
+            console.error(error);
           } else {
             const cookies = new Cookies({ TTL: Number.MAX_VALUE });
             cookies.set("clientId", clientId, { path: "/" });
