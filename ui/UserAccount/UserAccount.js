@@ -15,9 +15,6 @@ UserAccount({
   accountState() {
     const pathname = this.props.match.params.action.toLowerCase();
     const state = states[pathname] || "signIn";
-    if (Meteor.isClient && Meteor.user() && (state === states.signin || state === states.signup)) {
-      window.location.replace("/");
-    }
     return state;
   },
   token() {
