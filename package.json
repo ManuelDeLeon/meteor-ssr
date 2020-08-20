@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.4.4",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "cheerio": "^1.0.0-rc.3",
     "meteor-node-stubs": "^0.4.1",
     "prop-types": "^15.7.2",
